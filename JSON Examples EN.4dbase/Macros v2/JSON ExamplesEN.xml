@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE macros SYSTEM "http://www.4d.com/dtd/2007/macros.dtd" >
+
+<macros>
+
+	<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j1" 
+		type_ahead =		"true"
+		type_ahead_text =	"j1"
+		version =			"2"><text>$json:=JSON New 
+
+  //$text:=JSON Export to text ($json;JSON_WITH_WHITE_SPACE)
+$text:=JSON Export to text ($json;JSON_WITHOUT_WHITE_SPACE)
+
+SET TEXT TO PASTEBOARD($text)
+
+JSON CLOSE ($json)
+</text>
+	</macro>
+	
+	<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j2" 
+		type_ahead =		"true"
+		type_ahead_text =	"j2"
+		version =			"2"><text>$firstName:=JSON Append text ($json;"firstName";"Keisuke")
+  //$age:=JSON Append long ($json;"age";38)
+  //$points:=JSON Append real ($json;"points";3.14)
+  //$isImportant:=JSON Append bool ($json;"isImportant";0)
+</text>
+	</macro>	
+	
+	<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j3" 
+		type_ahead =		"true"
+		type_ahead_text =	"j3"
+		version =			"2"><text>ARRAY LONGINT($ids;3)
+$ids{1}:=16
+$ids{2}:=48
+$ids{3}:=96
+
+$commandIds:=JSON Append long array($json;"commandIds";$ids)
+</text>
+	</macro>	
+
+	<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j4" 
+		type_ahead =		"true"
+		type_ahead_text =	"j4"
+		version =			"2"><text>$commands:=JSON Append node ($json;"commands")
+
+JSON Append long ($commands;"id";16)
+JSON Append text ($commands;"name";Command name(16))
+</text>
+	</macro>
+	
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j5" 
+		type_ahead =		"true"
+		type_ahead_text =	"j5"
+		version =			"2"><text>$commands:=JSON Append node ($json;"commands")
+JSON SET TYPE($commands;JSON_ARRAY)
+
+ARRAY LONGINT($ids;3)
+$ids{1}:=16
+$ids{2}:=48
+$ids{3}:=96
+
+ARRAY TEXT($commandNames;3)
+$commandNames{1}:=Command name($ids{1})
+$commandNames{2}:=Command name($ids{2})
+$commandNames{3}:=Command name($ids{3})
+
+For ($i;1;Size of array($commandNames))
+$command:=JSON Append node ($commands;"")
+JSON Append text ($command;"name";$commandNames{$i})
+JSON Append long ($command;"id";$ids{$i})
+End for
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j6" 
+		type_ahead =		"true"
+		type_ahead_text =	"j6"
+		version =			"2"><text>$lastName:=JSON Append text ($json;"lastName";"Miyako")
+  //JSON SET NULL ($lastName)
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j7" 
+		type_ahead =		"true"
+		type_ahead_text =	"j7"
+		version =			"2"><text>$text:="{\"firstName\":\"Keisuke\",\"age\":38,\"points\":3.14,\"isImportant\":false}"
+
+$json:=JSON Parse text ($text)
+
+ARRAY TEXT($nodes;0)
+ARRAY LONGINT($types;0)
+ARRAY TEXT($names;0)
+
+JSON GET CHILD NODES ($json;$nodes;$types;$names)
+
+$firstName:=JSON Get text ($nodes{1})
+$age:=JSON Get long ($nodes{2})
+$points:=JSON Get real ($nodes{3})
+$isImportant:=JSON Get bool ($nodes{4})
+
+JSON CLOSE ($json)
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j8" 
+		type_ahead =		"true"
+		type_ahead_text =	"j8"
+		version =			"2"><text>$text:="{\"firstName\":\"Keisuke\",\"age\":38,\"points\":3.14,\"isImportant\":false}"
+
+$json:=JSON Parse text ($text)
+
+$node:=JSON Get child by name ($json;"firstName";JSON_CASE_SENSITIVE)
+$name:=JSON Get text ($node)
+
+$node:=JSON Get child by name ($json;"age";JSON_CASE_SENSITIVE)
+$age:=JSON Get text ($node)
+
+$node:=JSON Get child by name ($json;"points";JSON_CASE_SENSITIVE)
+$points:=JSON Get text ($node)
+
+$node:=JSON Get child by name ($json;"isImportant";JSON_CASE_SENSITIVE)
+$isImportant:=JSON Get text ($node)
+
+JSON CLOSE ($json)
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"j9" 
+		type_ahead =		"true"
+		type_ahead_text =	"j9"
+		version =			"2"><text>$text:="{\"firstName\":\"Keisuke\",\"age\":38,\"points\":3.14,\"isImportant\":false}"
+
+$json:=JSON Parse text ($text)
+
+$node:=JSON Get child by position ($json;1)
+$name:=JSON Get text ($node)
+
+$node:=JSON Get child by position ($json;2)
+$age:=JSON Get long ($node)
+
+$node:=JSON Get child by position ($json;3)
+$points:=JSON Get real ($node)
+
+$node:=JSON Get child by position ($json;4)
+$isImportant:=JSON Get bool ($node)
+
+JSON CLOSE ($json)
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c1" 
+		type_ahead =		"true"
+		type_ahead_text =	"c1"
+		version =			"2"><text>ARRAY LONGINT($optionNames;0)
+ARRAY TEXT($optionValues;0)
+
+$url:="http://127.0.0.1/hoge"
+
+C_BLOB($inData;$outData)
+$error:=cURL ($url;$optionNames;$optionValues;$inData;$outData)
+
+If ($error=0)
+
+ALERT(Convert to text($outData;"utf-8"))
+
+end if
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c2" 
+		type_ahead =		"true"
+		type_ahead_text =	"c2"
+		version =			"2"><text>ARRAY LONGINT($optionNames;1)
+ARRAY TEXT($optionValues;1)
+
+$optionNames{1}:=CURLOPT_POST
+$optionValues{1}:="1"
+
+$url:="http://127.0.0.1/hoge"
+
+C_BLOB($inData;$outData)
+
+CONVERT FROM TEXT("blarblar";"utf-8";$inData)
+
+$error:=cURL ($url;$optionNames;$optionValues;$inData;$outData)
+
+If ($error=0)
+
+ALERT(Convert to text($outData;"utf-8"))
+
+End if 
+</text>
+	</macro>
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c3" 
+		type_ahead =		"true"
+		type_ahead_text =	"c3"
+		version =			"2"><text>ARRAY LONGINT($optionNames;2)
+ARRAY TEXT($optionValues;2)
+
+  //$optionNames{1}:=CURLOPT_POST
+  //$optionValues{1}:="1"
+$optionNames{2}:=CURLOPT_CUSTOMREQUEST
+$optionValues{2}:="DELETE"
+
+$url:="http://127.0.0.1/hoge"
+
+C_BLOB($inData;$outData)
+
+$error:=cURL ($url;$optionNames;$optionValues;$inData;$outData)
+
+If ($error=0)
+
+ALERT(Convert to text($outData;"utf-8"))
+
+End if
+</text>
+	</macro>
+	
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c4" 
+		type_ahead =		"true"
+		type_ahead_text =	"c4"
+		version =			"2"><text>ARRAY LONGINT($optionNames;2)
+ARRAY TEXT($optionValues;2)
+
+$optionNames{1}:=CURLOPT_POST
+$optionValues{1}:="1"
+$optionNames{2}:=CURLOPT_CUSTOMREQUEST
+$optionValues{2}:="PATCH"
+
+$url:="http://127.0.0.1/hoge"
+
+C_BLOB($inData;$outData)
+
+$error:=cURL ($url;$optionNames;$optionValues;$inData;$outData)
+
+If ($error=0)
+
+ALERT(Convert to text($outData;"utf-8"))
+
+End if
+</text>
+	</macro>	
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c5" 
+		type_ahead =		"true"
+		type_ahead_text =	"c5"
+		version =			"2"><text>ARRAY LONGINT($optionNames;2)
+ARRAY TEXT($optionValues;2)
+
+$optionNames{1}:=CURLOPT_ACCEPT_ENCODING
+$optionValues{1}:="gzip"
+$optionNames{2}:=CURLOPT_USERAGENT
+$optionValues{2}:="libcurl (gzip)"
+
+$url:="http://127.0.0.1/hoge"
+
+C_BLOB($inData;$outData)
+
+$error:=cURL ($url;$optionNames;$optionValues;$inData;$outData)
+
+If ($error=0)
+
+ALERT(Convert to text($outData;"utf-8"))
+
+End if 
+</text>
+	</macro>	
+
+		<macro 
+		in_menu =			"false" 
+		method_event =		""
+		name =				"c6" 
+		type_ahead =		"true"
+		type_ahead_text =	"c6"
+		version =			"2"><text>$U9B51:=Char(0x9B51)
+$U9B45:=Char(0x9B45)
+$U9B4D:=Char(0x9B4D)
+$U9B4E:=Char(0x9B4E)
+$text:=$U9B51+$U9B45+$U9B4D+$U9B4E
+
+ALERT("SRC: "+$text)
+
+$text:=cURL Escape url ($text)
+
+ALERT("ESC: "+$text)
+
+$text:=cURL Unescape url ($text)
+
+ALERT("DST: "+$text)
+</text>
+	</macro>
+																	
+</macros>
